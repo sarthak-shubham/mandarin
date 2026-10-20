@@ -1,0 +1,19 @@
+# Mochi Configuration Template
+
+server:
+  # Port for the REST API
+  port: 8080
+
+redis:
+  # Host and port of your Redis server
+  address: "localhost:6379"
+  # Redis password (leave empty if none)
+  password: ""
+  # Redis database number (0-15)
+  db: 0
+
+# Number of concurrent worker goroutines delivering webhooks
+workers: 10
+
+# Maximum duration to wait for a webhook receiver to respond
+delivery_timeout: 5s

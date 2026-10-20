@@ -1,0 +1,6 @@
+.git
+.gitignore
+*.exe
+mochi
+repomix-output.md
+tests/
