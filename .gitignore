@@ -1,0 +1,12 @@
+# Compiled binary
+mochi
+mochi.exe
+
+# Output files
+repomix-output.md
+
+# Go test cache
+*.test
+
+# Environment files
+.env
