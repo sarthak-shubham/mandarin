@@ -1,4 +1,4 @@
-package main
+package store
 
 import (
 	"context"
@@ -18,12 +18,12 @@ func (s *Store) RegisterEndpoint(ctx context.Context, ep Endpoint) error {
 		return err
 	}
 
-	err = s.redis.SAdd(ctx, allEndpointsKey(), ep.ID).Err()
+	err = s.Redis.SAdd(ctx, allEndpointsKey(), ep.ID).Err()
 	return err
 }
 
 func (s *Store) GetEndpoint(ctx context.Context, id string) (*Endpoint, error) {
-	data, err := s.redis.HGetAll(ctx, endpointKey(id)).Result()
+	data, err := s.Redis.HGetAll(ctx, endpointKey(id)).Result()
 	if err != nil {
 		return nil, fmt.Errorf("get endpoint %q: %w", id, err)
 	}
@@ -36,16 +36,16 @@ func (s *Store) GetEndpoint(ctx context.Context, id string) (*Endpoint, error) {
 		return nil, fmt.Errorf("parse created_at for endpoint %q: %w", id, err)
 	}
 
-	ep := &Endpoint{
+	endpoint := &Endpoint{
 		ID:        data["id"],
 		URL:       data["url"],
 		CreatedAt: createdAt,
 	}
-	return ep, nil
+	return endpoint, nil
 }
 
 func (s *Store) ListEndpoints(ctx context.Context) ([]Endpoint, error) {
-	ids, err := s.redis.SMembers(ctx, allEndpointsKey()).Result()
+	ids, err := s.Redis.SMembers(ctx, allEndpointsKey()).Result()
 	if err != nil {
 		return nil, fmt.Errorf("list endpoint IDs: %w", err)
 	}
@@ -65,12 +65,12 @@ func (s *Store) ListEndpoints(ctx context.Context) ([]Endpoint, error) {
 }
 
 func (s *Store) DeleteEndpoint(ctx context.Context, id string) error {
-	eventTypes, err := s.redis.SMembers(ctx, subscriptionsKey(id)).Result()
+	eventTypes, err := s.Redis.SMembers(ctx, subscriptionsKey(id)).Result()
 	if err != nil {
 		return fmt.Errorf("read subscriptions for endpoint %q: %w", id, err)
 	}
 
-	pipe := s.redis.Pipeline()
+	pipe := s.Redis.Pipeline()
 	pipe.Del(ctx, endpointKey(id))
 	pipe.Del(ctx, subscriptionsKey(id))
 	pipe.SRem(ctx, allEndpointsKey(), id)
@@ -83,7 +83,7 @@ func (s *Store) DeleteEndpoint(ctx context.Context, id string) error {
 }
 
 func (s *Store) Subscribe(ctx context.Context, endpointID, eventType string) error {
-	pipe := s.redis.Pipeline()
+	pipe := s.Redis.Pipeline()
 	pipe.SAdd(ctx, subscriptionsKey(endpointID), eventType)
 	pipe.SAdd(ctx, eventTypeKey(eventType), endpointID)
 
@@ -92,7 +92,7 @@ func (s *Store) Subscribe(ctx context.Context, endpointID, eventType string) err
 }
 
 func (s *Store) Unsubscribe(ctx context.Context, endpointID, eventType string) error {
-	pipe := s.redis.Pipeline()
+	pipe := s.Redis.Pipeline()
 	pipe.SRem(ctx, subscriptionsKey(endpointID), eventType)
 	pipe.SRem(ctx, eventTypeKey(eventType), endpointID)
 
@@ -101,7 +101,7 @@ func (s *Store) Unsubscribe(ctx context.Context, endpointID, eventType string) e
 }
 
 func (s *Store) EndpointsForEventType(ctx context.Context, eventType string) ([]string, error) {
-	ids, err := s.redis.SMembers(ctx, eventTypeKey(eventType)).Result()
+	ids, err := s.Redis.SMembers(ctx, eventTypeKey(eventType)).Result()
 	if err != nil {
 		return nil, fmt.Errorf("endpoints for event type %q: %w", eventType, err)
 	}
@@ -109,11 +109,13 @@ func (s *Store) EndpointsForEventType(ctx context.Context, eventType string) ([]
 }
 
 func (s *Store) saveEndpoint(ctx context.Context, ep Endpoint) error {
-	key := endpointKey(ep.ID)
-	err := s.redis.HSet(ctx, key,
-		"id", ep.ID,
-		"url", ep.URL,
-		"created_at", ep.CreatedAt.Format(time.RFC3339),
-	).Err()
+	endpointData := map[string]any{
+		"id":         ep.ID,
+		"url":        ep.URL,
+		"created_at": ep.CreatedAt.Format(time.RFC3339),
+	}
+
+	err := s.Redis.HSet(ctx, endpointKey(ep.ID), endpointData).Err()
 	return err
 }
+

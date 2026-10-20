@@ -1,6 +1,7 @@
 # Compiled binary
-mochi
-mochi.exe
+/mochi
+/mochi.exe
+
 
 # Output files
 repomix-output.md

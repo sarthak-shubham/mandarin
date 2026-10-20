@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -32,18 +32,20 @@ func defaultConfig() Config {
 	return c
 }
 
-func loadConfig(path string) (Config, error) {
+func Load(path string) (Config, error) {
 	cfg := defaultConfig()
 
 	if path != "" {
-		if err := mergeYAML(&cfg, path); err != nil {
+		err := mergeYAML(&cfg, path)
+		if err != nil {
 			return Config{}, err
 		}
 	}
 
 	mergeEnv(&cfg)
 
-	if err := validate(cfg); err != nil {
+	err := validate(cfg)
+	if err != nil {
 		return Config{}, err
 	}
 
@@ -56,7 +58,8 @@ func mergeYAML(cfg *Config, path string) error {
 		return fmt.Errorf("cannot read config file %q: %w", path, err)
 	}
 
-	if err := yaml.Unmarshal(data, cfg); err != nil {
+	err = yaml.Unmarshal(data, cfg)
+	if err != nil {
 		return fmt.Errorf("cannot parse config file %q: %w", path, err)
 	}
 
@@ -64,34 +67,44 @@ func mergeYAML(cfg *Config, path string) error {
 }
 
 func mergeEnv(cfg *Config) {
-	if v := os.Getenv("MOCHI_SERVER_PORT"); v != "" {
-		if n, err := strconv.Atoi(v); err == nil {
+	portStr := os.Getenv("MOCHI_SERVER_PORT")
+	if portStr != "" {
+		n, err := strconv.Atoi(portStr)
+		if err == nil {
 			cfg.Server.Port = n
 		}
 	}
 
-	if v := os.Getenv("MOCHI_REDIS_ADDRESS"); v != "" {
-		cfg.Redis.Address = v
+	redisAddr := os.Getenv("MOCHI_REDIS_ADDRESS")
+	if redisAddr != "" {
+		cfg.Redis.Address = redisAddr
 	}
 
-	if v := os.Getenv("MOCHI_REDIS_PASSWORD"); v != "" {
-		cfg.Redis.Password = v
+	redisPass := os.Getenv("MOCHI_REDIS_PASSWORD")
+	if redisPass != "" {
+		cfg.Redis.Password = redisPass
 	}
 
-	if v := os.Getenv("MOCHI_REDIS_DB"); v != "" {
-		if n, err := strconv.Atoi(v); err == nil {
+	redisDB := os.Getenv("MOCHI_REDIS_DB")
+	if redisDB != "" {
+		n, err := strconv.Atoi(redisDB)
+		if err == nil {
 			cfg.Redis.DB = n
 		}
 	}
 
-	if v := os.Getenv("MOCHI_WORKERS"); v != "" {
-		if n, err := strconv.Atoi(v); err == nil {
+	workersStr := os.Getenv("MOCHI_WORKERS")
+	if workersStr != "" {
+		n, err := strconv.Atoi(workersStr)
+		if err == nil {
 			cfg.Workers = n
 		}
 	}
 
-	if v := os.Getenv("MOCHI_DELIVERY_TIMEOUT"); v != "" {
-		if d, err := time.ParseDuration(v); err == nil {
+	timeoutStr := os.Getenv("MOCHI_DELIVERY_TIMEOUT")
+	if timeoutStr != "" {
+		d, err := time.ParseDuration(timeoutStr)
+		if err == nil {
 			cfg.DeliveryTimeout = d
 		}
 	}
@@ -116,3 +129,4 @@ func validate(cfg Config) error {
 
 	return nil
 }
+

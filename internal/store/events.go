@@ -1,4 +1,4 @@
-package main
+package store
 
 import (
 	"context"
@@ -33,7 +33,7 @@ type Delivery struct {
 
 func (s *Store) SaveEvent(ctx context.Context, ev Event) error {
 	key := eventKey(ev.ID)
-	err := s.redis.HSet(ctx, key,
+	err := s.Redis.HSet(ctx, key,
 		"id", ev.ID,
 		"event_type", ev.EventType,
 		"published_at", ev.PublishedAt.Format(time.RFC3339),
@@ -43,7 +43,7 @@ func (s *Store) SaveEvent(ctx context.Context, ev Event) error {
 }
 
 func (s *Store) GetEvent(ctx context.Context, id string) (*Event, error) {
-	data, err := s.redis.HGetAll(ctx, eventKey(id)).Result()
+	data, err := s.Redis.HGetAll(ctx, eventKey(id)).Result()
 	if err != nil {
 		return nil, fmt.Errorf("get event %q: %w", id, err)
 	}
@@ -66,7 +66,7 @@ func (s *Store) GetEvent(ctx context.Context, id string) (*Event, error) {
 }
 
 func (s *Store) SaveDelivery(ctx context.Context, d Delivery) error {
-	pipe := s.redis.Pipeline()
+	pipe := s.Redis.Pipeline()
 	pipe.HSet(ctx, deliveryKey(d.EventID, d.EndpointID),
 		"event_id", d.EventID,
 		"endpoint_id", d.EndpointID,
@@ -82,7 +82,7 @@ func (s *Store) SaveDelivery(ctx context.Context, d Delivery) error {
 }
 
 func (s *Store) GetDelivery(ctx context.Context, eventID, endpointID string) (*Delivery, error) {
-	data, err := s.redis.HGetAll(ctx, deliveryKey(eventID, endpointID)).Result()
+	data, err := s.Redis.HGetAll(ctx, deliveryKey(eventID, endpointID)).Result()
 	if err != nil {
 		return nil, fmt.Errorf("get delivery %q/%q: %w", eventID, endpointID, err)
 	}
@@ -108,7 +108,7 @@ func (s *Store) GetDelivery(ctx context.Context, eventID, endpointID string) (*D
 }
 
 func (s *Store) GetDeliveriesForEvent(ctx context.Context, eventID string) ([]Delivery, error) {
-	endpointIDs, err := s.redis.SMembers(ctx, eventDeliveriesKey(eventID)).Result()
+	endpointIDs, err := s.Redis.SMembers(ctx, eventDeliveriesKey(eventID)).Result()
 	if err != nil {
 		return nil, fmt.Errorf("list deliveries for event %q: %w", eventID, err)
 	}
@@ -136,6 +136,6 @@ func (s *Store) EnqueueDelivery(ctx context.Context, eventID, endpointID string)
 		},
 	}
 
-	err := s.redis.XAdd(ctx, args).Err()
+	err := s.Redis.XAdd(ctx, args).Err()
 	return err
 }
