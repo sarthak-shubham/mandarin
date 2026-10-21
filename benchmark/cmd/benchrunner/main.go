@@ -57,10 +57,7 @@ func runBenchmark(cfg config.BenchmarkConfig, client *redis.Client, keepData boo
 	seeder := generator.NewEndpointSeeder(client)
 	publisher := generator.NewEventPublisher(cfg.Tamarind.Address)
 
-	fmt.Println("1. Pre-cleaning Redis DB:", cfg.Redis.DB)
-	seeder.Flush(context.Background())
-
-	fmt.Printf("2. Seeding %d subscribers to %q...\n", cfg.Benchmark.Subscribers, cfg.Benchmark.EventType)
+	fmt.Printf("1. Seeding %d subscribers to %q...\n", cfg.Benchmark.Subscribers, cfg.Benchmark.EventType)
 	seedStart := time.Now()
 	err := seeder.SeedSubscribers(context.Background(), cfg.Benchmark.Subscribers, cfg.Receiver.URL, cfg.Benchmark.EventType)
 	if err != nil {
@@ -68,7 +65,7 @@ func runBenchmark(cfg config.BenchmarkConfig, client *redis.Client, keepData boo
 	}
 	fmt.Printf("   Seeded %d subscribers in %s\n", cfg.Benchmark.Subscribers, time.Since(seedStart))
 
-	fmt.Println("3. Publishing broadcast event to Tamarind...")
+	fmt.Println("2. Publishing broadcast event to Tamarind...")
 	payload := map[string]any{"version": "2.0", "effective_date": "2026-11-01"}
 	eventID, enqueueDuration, err := publisher.PublishBroadcast(context.Background(), cfg.Benchmark.EventType, payload)
 	if err != nil {
@@ -76,7 +73,7 @@ func runBenchmark(cfg config.BenchmarkConfig, client *redis.Client, keepData boo
 	}
 	fmt.Printf("   Event accepted: %s (enqueue latency: %s)\n", eventID, enqueueDuration)
 
-	fmt.Println("4. Delivering webhooks to receiver (waiting for workers)...")
+	fmt.Println("3. Delivering webhooks to receiver (waiting for workers)...")
 	waitCtx, waitCancel := context.WithTimeout(context.Background(), 3*time.Minute)
 	defer waitCancel()
 
@@ -118,7 +115,12 @@ func runBenchmark(cfg config.BenchmarkConfig, client *redis.Client, keepData boo
 	}
 
 	if !keepData {
-		fmt.Println("5. Post-cleaning Redis DB:", cfg.Redis.DB)
-		seeder.Flush(context.Background())
+		fmt.Println("4. Post-cleaning Redis keys (zero-footprint teardown)...")
+		err = seeder.TeardownBenchmarkData(context.Background(), cfg.Benchmark.Subscribers, cfg.Benchmark.EventType, eventID)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "warning: teardown error: %s\n", err)
+		} else {
+			fmt.Println("   Teardown complete: all benchmark keys and stream unlinked.")
+		}
 	}
 }

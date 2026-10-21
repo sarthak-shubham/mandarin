@@ -17,3 +17,6 @@ workers: 10
 
 # Maximum duration to wait for a webhook receiver to respond
 delivery_timeout: 5s
+
+# Number of webhooks to pipeline in a single batch during dispatch/retrieval
+batch_size: 1000

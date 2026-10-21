@@ -118,4 +118,3 @@ func (s *Store) saveEndpoint(ctx context.Context, ep Endpoint) error {
 	err := s.Redis.HSet(ctx, endpointKey(ep.ID), endpointData).Err()
 	return err
 }
-

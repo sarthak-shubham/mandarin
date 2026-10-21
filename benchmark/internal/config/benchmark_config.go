@@ -29,6 +29,7 @@ type BenchmarkConfig struct {
 	Benchmark struct {
 		Subscribers int    `yaml:"subscribers"`
 		EventType   string `yaml:"event_type"`
+		BatchSize   int    `yaml:"batch_size"`
 	} `yaml:"benchmark"`
 }
 
@@ -39,6 +40,7 @@ func defaultBenchmarkConfig() BenchmarkConfig {
 	cfg.Receiver.URL = "http://localhost:9000"
 	cfg.Benchmark.Subscribers = 10000
 	cfg.Benchmark.EventType = "privacy_policy.updated"
+	cfg.Benchmark.BatchSize = 1000
 	cfg.Redis.DB = 14
 	return cfg
 }

@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Verify Dependencies
+        run: go mod verify
+
+      - name: Format Check
+        run: |
+          DIFF=$(gofmt -s -d .)
+          if [ -n "$DIFF" ]; then
+            echo "Code is not formatted. Run 'gofmt -s -w .'"
+            echo "$DIFF"
+            exit 1
+          fi
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Run Tests with Race Detector
+        env:
+          TAMARIND_TEST_REDIS_ADDR: localhost:6379
+          TAMARIND_TEST_REDIS_DB: 15
+        run: go test -v -race -coverprofile=coverage.out ./tests/...
+
+  build:
+    name: Build & Docker Check
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+
+      - name: Compile Binary
+        run: go build -v -o bin/tamarind ./cmd/tamarind
+
+      - name: Verify Docker Build
+        run: docker build -t tamarind:ci .

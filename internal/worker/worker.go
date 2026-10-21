@@ -160,4 +160,3 @@ func isGroupExistsError(err error) bool {
 	exists := strings.Contains(err.Error(), "BUSYGROUP")
 	return exists
 }
-

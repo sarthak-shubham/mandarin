@@ -122,4 +122,3 @@ func TestAPI_Endpoints_Lifecycle(t *testing.T) {
 		t.Errorf("expected 204 for delete, got %d", delResp.StatusCode)
 	}
 }
-

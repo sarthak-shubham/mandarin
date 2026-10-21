@@ -3,11 +3,15 @@ package store
 import "github.com/redis/go-redis/v9"
 
 type Store struct {
-	Redis *redis.Client
+	Redis     *redis.Client
+	BatchSize int
 }
 
 func NewStore(client *redis.Client) *Store {
-	s := &Store{Redis: client}
+	s := &Store{
+		Redis:     client,
+		BatchSize: 1000,
+	}
 	return s
 }
 

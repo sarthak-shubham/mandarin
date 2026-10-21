@@ -36,6 +36,7 @@ func main() {
 	defer redisClient.Close()
 
 	s := store.NewStore(redisClient)
+	s.BatchSize = cfg.BatchSize
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()

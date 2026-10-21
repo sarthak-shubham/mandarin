@@ -3,7 +3,6 @@ package api
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -180,24 +179,8 @@ func publishEventHandler(s *store.Store) http.HandlerFunc {
 }
 
 func scheduleDeliveries(ctx context.Context, s *store.Store, eventID string, endpointIDs []string) error {
-	for _, endpointID := range endpointIDs {
-		delivery := store.Delivery{
-			EventID:    eventID,
-			EndpointID: endpointID,
-			State:      store.StatePending,
-		}
-
-		err := s.SaveDelivery(ctx, delivery)
-		if err != nil {
-			return fmt.Errorf("save delivery: %w", err)
-		}
-
-		err = s.EnqueueDelivery(ctx, eventID, endpointID)
-		if err != nil {
-			return fmt.Errorf("enqueue delivery: %w", err)
-		}
-	}
-	return nil
+	err := s.ScheduleDeliveries(ctx, eventID, endpointIDs)
+	return err
 }
 
 func getEventHandler(s *store.Store) http.HandlerFunc {
@@ -247,4 +230,3 @@ func countDeliveries(deliveries []store.Delivery) (pending, success, failed int)
 	}
 	return pending, success, failed
 }
-

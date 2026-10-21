@@ -17,8 +17,42 @@ func NewEndpointSeeder(client *redis.Client) *EndpointSeeder {
 	return seeder
 }
 
-func (s *EndpointSeeder) Flush(ctx context.Context) error {
-	err := s.client.FlushDB(ctx).Err()
+func (s *EndpointSeeder) TeardownBenchmarkData(ctx context.Context, count int, eventType, eventID string) error {
+	batchSize := 1000
+	for i := 0; i < count; i += batchSize {
+		limit := i + batchSize
+		if limit > count {
+			limit = count
+		}
+
+		pipe := s.client.Pipeline()
+		for j := i; j < limit; j++ {
+			id := fmt.Sprintf("bench-sub-%05d", j)
+			pipe.Unlink(ctx, "endpoint:"+id)
+			pipe.Unlink(ctx, "subscriptions:"+id)
+			if eventID != "" {
+				pipe.Unlink(ctx, fmt.Sprintf("delivery:%s:%s", eventID, id))
+			}
+		}
+
+		_, err := pipe.Exec(ctx)
+		if err != nil {
+			return fmt.Errorf("teardown batch %d-%d: %w", i, limit, err)
+		}
+	}
+
+	metaPipe := s.client.Pipeline()
+	metaPipe.Unlink(ctx, "endpoints:all")
+	if eventType != "" {
+		metaPipe.Unlink(ctx, "event_type:"+eventType)
+	}
+	if eventID != "" {
+		metaPipe.Unlink(ctx, "event:"+eventID)
+		metaPipe.Unlink(ctx, "event_deliveries:"+eventID)
+	}
+	metaPipe.Unlink(ctx, "tamarind:deliveries")
+
+	_, err := metaPipe.Exec(ctx)
 	return err
 }
 

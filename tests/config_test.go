@@ -24,6 +24,9 @@ func TestConfig_Defaults(t *testing.T) {
 	if cfg.DeliveryTimeout != 5*time.Second {
 		t.Errorf("expected 5s timeout, got %s", cfg.DeliveryTimeout)
 	}
+	if cfg.BatchSize != 1000 {
+		t.Errorf("expected 1000 batch size, got %d", cfg.BatchSize)
+	}
 }
 
 func TestConfig_Validation(t *testing.T) {
@@ -52,6 +55,7 @@ func TestConfig_EnvOverrides(t *testing.T) {
 	t.Setenv("TAMARIND_SERVER_PORT", "9090")
 	t.Setenv("TAMARIND_WORKERS", "25")
 	t.Setenv("TAMARIND_DELIVERY_TIMEOUT", "10s")
+	t.Setenv("TAMARIND_BATCH_SIZE", "500")
 
 	cfg, err := config.Load("")
 	if err != nil {
@@ -69,5 +73,8 @@ func TestConfig_EnvOverrides(t *testing.T) {
 	}
 	if cfg.DeliveryTimeout != 10*time.Second {
 		t.Errorf("expected 10s timeout, got %s", cfg.DeliveryTimeout)
+	}
+	if cfg.BatchSize != 500 {
+		t.Errorf("expected 500 batch size, got %d", cfg.BatchSize)
 	}
 }

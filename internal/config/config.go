@@ -22,6 +22,7 @@ type Config struct {
 
 	Workers         int           `yaml:"workers"`
 	DeliveryTimeout time.Duration `yaml:"delivery_timeout"`
+	BatchSize       int           `yaml:"batch_size"`
 }
 
 func defaultConfig() Config {
@@ -29,6 +30,7 @@ func defaultConfig() Config {
 	c.Server.Port = 8080
 	c.Workers = 10
 	c.DeliveryTimeout = 5 * time.Second
+	c.BatchSize = 1000
 	return c
 }
 
@@ -108,25 +110,12 @@ func mergeEnv(cfg *Config) {
 			cfg.DeliveryTimeout = d
 		}
 	}
+
+	batchStr := os.Getenv("TAMARIND_BATCH_SIZE")
+	if batchStr != "" {
+		n, err := strconv.Atoi(batchStr)
+		if err == nil {
+			cfg.BatchSize = n
+		}
+	}
 }
-
-func validate(cfg Config) error {
-	if cfg.Redis.Address == "" {
-		return fmt.Errorf("redis.address is required (set it in the config file or via TAMARIND_REDIS_ADDRESS)")
-	}
-
-	if cfg.Server.Port < 1 || cfg.Server.Port > 65535 {
-		return fmt.Errorf("server.port must be between 1 and 65535, got %d", cfg.Server.Port)
-	}
-
-	if cfg.Workers < 1 {
-		return fmt.Errorf("workers must be at least 1, got %d", cfg.Workers)
-	}
-
-	if cfg.DeliveryTimeout <= 0 {
-		return fmt.Errorf("delivery_timeout must be greater than zero, got %s", cfg.DeliveryTimeout)
-	}
-
-	return nil
-}
-

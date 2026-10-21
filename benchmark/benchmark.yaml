@@ -21,3 +21,4 @@ receiver:
 benchmark:
   subscribers: 10000
   event_type: "privacy_policy.updated"
+  batch_size: 1000

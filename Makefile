@@ -1,4 +1,4 @@
-.PHONY: help run test build docker-build up down logs clean bench-receiver bench-run
+.PHONY: help run test build docker-build up down logs clean bench-receiver bench-server bench-run
 
 help:
 	@echo "Tamarind - Lightweight Webhook Engine"
@@ -6,9 +6,10 @@ help:
 	@echo "Usage: make [target]"
 	@echo ""
 	@echo "Targets:"
-	@echo "  run             Run Tamarind locally using tamarind.yaml"
-	@echo "  test            Run the full automated test suite"
+	@echo "  run             Run Tamarind locally using tamarind.yaml (DB 0)"
+	@echo "  test            Run the full automated test suite (DB 15)"
 	@echo "  bench-receiver  Start mock webhook receiver (port 9000)"
+	@echo "  bench-server    Start Tamarind engine configured for benchmarks (DB 14)"
 	@echo "  bench-run       Run 10k fan-out benchmark using benchmark/benchmark.yaml"
 	@echo "  build           Compile binary to bin/tamarind"
 	@echo "  docker-build    Build the Docker image (tamarind:latest)"
@@ -22,6 +23,9 @@ run:
 
 bench-receiver:
 	go run ./benchmark/cmd/benchreceiver -config benchmark/benchmark.yaml
+
+bench-server:
+	go run ./cmd/tamarind -config benchmark/benchmark.yaml
 
 bench-run:
 	go run ./benchmark/cmd/benchrunner -config benchmark/benchmark.yaml

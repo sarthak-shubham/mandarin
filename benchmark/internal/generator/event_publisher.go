@@ -122,6 +122,6 @@ func (p *EventPublisher) checkEventStatus(ctx context.Context, id string, total 
 		FailedCount:  failed,
 	}
 
-	completed := (success + failed) >= total || (total > 0 && pending == 0 && (success+failed) > 0)
+	completed := (success+failed) >= total || (total > 0 && pending == 0 && (success+failed) > 0)
 	return res, completed, nil
 }
