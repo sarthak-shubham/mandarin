@@ -6,6 +6,7 @@ bin/
 
 # Output files
 repomix-output.md
+benchmark/report.json
 
 # Go test cache
 *.test

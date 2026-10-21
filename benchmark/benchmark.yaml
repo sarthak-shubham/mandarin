@@ -1,0 +1,23 @@
+# Benchmark Configuration for Tamarind Fan-Out Stress Testing
+
+# Tamarind Server Connection
+tamarind:
+  address: "http://localhost:8080"
+
+# Redis Infrastructure (Explicitly required - DB: 14 for benchmark isolation)
+redis:
+  address: "localhost:6379"
+  password: ""
+  db: 14
+
+# Mock Webhook Receiver Settings
+receiver:
+  port: 9000
+  url: "http://localhost:9000"
+  delay: 0s
+  failure_rate: 0.0
+
+# Benchmark Run Parameters
+benchmark:
+  subscribers: 10000
+  event_type: "privacy_policy.updated"
