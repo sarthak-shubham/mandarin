@@ -12,11 +12,11 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"mochi/internal/config"
-	"mochi/internal/store"
+	"tamarind/internal/config"
+	"tamarind/internal/store"
 )
 
-const consumerGroupName = "mochi-workers"
+const consumerGroupName = "tamarind-workers"
 
 func StartWorkers(ctx context.Context, s *store.Store, cfg config.Config) error {
 	err := s.Redis.XGroupCreateMkStream(ctx, store.DeliveryStreamKey(), consumerGroupName, "$").Err()

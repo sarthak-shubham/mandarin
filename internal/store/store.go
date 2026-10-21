@@ -12,7 +12,7 @@ func NewStore(client *redis.Client) *Store {
 }
 
 func DeliveryStreamKey() string {
-	key := "mochi:deliveries"
+	key := "tamarind:deliveries"
 	return key
 }
 

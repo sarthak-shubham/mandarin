@@ -1,6 +1,7 @@
 # Compiled binary
-/mochi
-/mochi.exe
+/tamarind
+/tamarind.exe
+bin/
 
 
 # Output files

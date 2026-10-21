@@ -12,25 +12,25 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"mochi/internal/api"
-	"mochi/internal/config"
-	"mochi/internal/store"
-	"mochi/internal/worker"
+	"tamarind/internal/api"
+	"tamarind/internal/config"
+	"tamarind/internal/store"
+	"tamarind/internal/worker"
 )
 
 func main() {
-	configPath := flag.String("config", "", "path to mochi.yaml (optional)")
+	configPath := flag.String("config", "", "path to tamarind.yaml (optional)")
 	flag.Parse()
 
 	cfg, err := config.Load(*configPath)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "mochi: invalid configuration: %s\n", err)
+		fmt.Fprintf(os.Stderr, "tamarind: invalid configuration: %s\n", err)
 		os.Exit(1)
 	}
 
 	redisClient, err := connectRedis(cfg)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "mochi: cannot connect to Redis: %s\n", err)
+		fmt.Fprintf(os.Stderr, "tamarind: cannot connect to Redis: %s\n", err)
 		os.Exit(1)
 	}
 	defer redisClient.Close()
@@ -42,7 +42,7 @@ func main() {
 
 	err = worker.StartWorkers(ctx, s, cfg)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "mochi: cannot start workers: %s\n", err)
+		fmt.Fprintf(os.Stderr, "tamarind: cannot start workers: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -50,7 +50,7 @@ func main() {
 
 	serverErr := make(chan error, 1)
 	go func() {
-		log.Printf("mochi: listening on port %d", cfg.Server.Port)
+		log.Printf("tamarind: listening on port %d", cfg.Server.Port)
 		serverErr <- server.ListenAndServe()
 	}()
 
@@ -59,9 +59,9 @@ func main() {
 
 	select {
 	case err := <-serverErr:
-		log.Fatalf("mochi: server error: %s", err)
+		log.Fatalf("tamarind: server error: %s", err)
 	case sig := <-quit:
-		log.Printf("mochi: received %s, shutting down", sig)
+		log.Printf("tamarind: received %s, shutting down", sig)
 	}
 
 	cancel()
@@ -71,10 +71,10 @@ func main() {
 
 	err = server.Shutdown(shutdownCtx)
 	if err != nil {
-		log.Fatalf("mochi: shutdown error: %s", err)
+		log.Fatalf("tamarind: shutdown error: %s", err)
 	}
 
-	log.Println("mochi: stopped")
+	log.Println("tamarind: stopped")
 }
 
 func connectRedis(cfg config.Config) (*redis.Client, error) {
@@ -95,4 +95,3 @@ func connectRedis(cfg config.Config) (*redis.Client, error) {
 
 	return client, nil
 }
-

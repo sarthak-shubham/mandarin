@@ -9,7 +9,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"mochi/internal/store"
+	"tamarind/internal/store"
 )
 
 func registerEndpointHandler(s *store.Store) http.HandlerFunc {

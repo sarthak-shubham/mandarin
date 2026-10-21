@@ -12,7 +12,7 @@ RUN go mod download
 
 # Copy source code and build
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o mochi ./cmd/mochi
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o tamarind ./cmd/tamarind
 
 # Stage 2: Minimal runtime image
 FROM alpine:3.20
@@ -23,12 +23,12 @@ WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Copy binary and default configuration
-COPY --from=builder /app/mochi /usr/local/bin/mochi
-COPY --from=builder /app/mochi.yaml /etc/mochi/mochi.yaml
+COPY --from=builder /app/tamarind /usr/local/bin/tamarind
+COPY --from=builder /app/tamarind.yaml /etc/tamarind/tamarind.yaml
 
 # Expose HTTP port
 EXPOSE 8080
 
-# Run Mochi
-ENTRYPOINT ["mochi"]
-CMD ["-config", "/etc/mochi/mochi.yaml"]
+# Run Tamarind
+ENTRYPOINT ["tamarind"]
+CMD ["-config", "/etc/tamarind/tamarind.yaml"]

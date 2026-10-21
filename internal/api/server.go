@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"mochi/internal/config"
-	"mochi/internal/store"
+	"tamarind/internal/config"
+	"tamarind/internal/store"
 )
 
 func NewServer(cfg config.Config, s *store.Store) *http.Server {

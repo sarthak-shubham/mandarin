@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"mochi/internal/config"
-	"mochi/internal/store"
-	"mochi/internal/worker"
+	"tamarind/internal/config"
+	"tamarind/internal/store"
+	"tamarind/internal/worker"
 )
 
 func TestWebhookDelivery_Success(t *testing.T) {

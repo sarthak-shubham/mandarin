@@ -67,7 +67,7 @@ func mergeYAML(cfg *Config, path string) error {
 }
 
 func mergeEnv(cfg *Config) {
-	portStr := os.Getenv("MOCHI_SERVER_PORT")
+	portStr := os.Getenv("TAMARIND_SERVER_PORT")
 	if portStr != "" {
 		n, err := strconv.Atoi(portStr)
 		if err == nil {
@@ -75,17 +75,17 @@ func mergeEnv(cfg *Config) {
 		}
 	}
 
-	redisAddr := os.Getenv("MOCHI_REDIS_ADDRESS")
+	redisAddr := os.Getenv("TAMARIND_REDIS_ADDRESS")
 	if redisAddr != "" {
 		cfg.Redis.Address = redisAddr
 	}
 
-	redisPass := os.Getenv("MOCHI_REDIS_PASSWORD")
+	redisPass := os.Getenv("TAMARIND_REDIS_PASSWORD")
 	if redisPass != "" {
 		cfg.Redis.Password = redisPass
 	}
 
-	redisDB := os.Getenv("MOCHI_REDIS_DB")
+	redisDB := os.Getenv("TAMARIND_REDIS_DB")
 	if redisDB != "" {
 		n, err := strconv.Atoi(redisDB)
 		if err == nil {
@@ -93,7 +93,7 @@ func mergeEnv(cfg *Config) {
 		}
 	}
 
-	workersStr := os.Getenv("MOCHI_WORKERS")
+	workersStr := os.Getenv("TAMARIND_WORKERS")
 	if workersStr != "" {
 		n, err := strconv.Atoi(workersStr)
 		if err == nil {
@@ -101,7 +101,7 @@ func mergeEnv(cfg *Config) {
 		}
 	}
 
-	timeoutStr := os.Getenv("MOCHI_DELIVERY_TIMEOUT")
+	timeoutStr := os.Getenv("TAMARIND_DELIVERY_TIMEOUT")
 	if timeoutStr != "" {
 		d, err := time.ParseDuration(timeoutStr)
 		if err == nil {
@@ -112,7 +112,7 @@ func mergeEnv(cfg *Config) {
 
 func validate(cfg Config) error {
 	if cfg.Redis.Address == "" {
-		return fmt.Errorf("redis.address is required (set it in the config file or via MOCHI_REDIS_ADDRESS)")
+		return fmt.Errorf("redis.address is required (set it in the config file or via TAMARIND_REDIS_ADDRESS)")
 	}
 
 	if cfg.Server.Port < 1 || cfg.Server.Port > 65535 {

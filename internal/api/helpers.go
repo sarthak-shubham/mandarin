@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"mochi/internal/store"
+	"tamarind/internal/store"
 )
 
 func writeJSON(w http.ResponseWriter, status int, v any) {

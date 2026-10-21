@@ -4,11 +4,11 @@ import (
 	"testing"
 	"time"
 
-	"mochi/internal/config"
+	"tamarind/internal/config"
 )
 
 func TestConfig_Defaults(t *testing.T) {
-	t.Setenv("MOCHI_REDIS_ADDRESS", "localhost:6379")
+	t.Setenv("TAMARIND_REDIS_ADDRESS", "localhost:6379")
 
 	cfg, err := config.Load("")
 	if err != nil {
@@ -32,15 +32,15 @@ func TestConfig_Validation(t *testing.T) {
 		t.Error("expected error for missing redis address, got nil")
 	}
 
-	t.Setenv("MOCHI_REDIS_ADDRESS", "localhost:6379")
-	t.Setenv("MOCHI_SERVER_PORT", "99999")
+	t.Setenv("TAMARIND_REDIS_ADDRESS", "localhost:6379")
+	t.Setenv("TAMARIND_SERVER_PORT", "99999")
 	_, err = config.Load("")
 	if err == nil {
 		t.Error("expected error for invalid port > 65535, got nil")
 	}
 
-	t.Setenv("MOCHI_SERVER_PORT", "8080")
-	t.Setenv("MOCHI_WORKERS", "0")
+	t.Setenv("TAMARIND_SERVER_PORT", "8080")
+	t.Setenv("TAMARIND_WORKERS", "0")
 	_, err = config.Load("")
 	if err == nil {
 		t.Error("expected error for workers < 1, got nil")
@@ -48,10 +48,10 @@ func TestConfig_Validation(t *testing.T) {
 }
 
 func TestConfig_EnvOverrides(t *testing.T) {
-	t.Setenv("MOCHI_REDIS_ADDRESS", "redis.internal:6380")
-	t.Setenv("MOCHI_SERVER_PORT", "9090")
-	t.Setenv("MOCHI_WORKERS", "25")
-	t.Setenv("MOCHI_DELIVERY_TIMEOUT", "10s")
+	t.Setenv("TAMARIND_REDIS_ADDRESS", "redis.internal:6380")
+	t.Setenv("TAMARIND_SERVER_PORT", "9090")
+	t.Setenv("TAMARIND_WORKERS", "25")
+	t.Setenv("TAMARIND_DELIVERY_TIMEOUT", "10s")
 
 	cfg, err := config.Load("")
 	if err != nil {

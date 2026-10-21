@@ -14,7 +14,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"mochi/internal/store"
+	"tamarind/internal/store"
 )
 
 type receivedWebhook struct {
@@ -25,13 +25,13 @@ type receivedWebhook struct {
 func setupTestRedis(t *testing.T) (*redis.Client, *store.Store) {
 	t.Helper()
 
-	addr := os.Getenv("MOCHI_TEST_REDIS_ADDRESS")
+	addr := os.Getenv("TAMARIND_TEST_REDIS_ADDRESS")
 	if addr == "" {
 		addr = "localhost:6379"
 	}
 
 	db := 15
-	dbStr := os.Getenv("MOCHI_TEST_REDIS_DB")
+	dbStr := os.Getenv("TAMARIND_TEST_REDIS_DB")
 	if dbStr != "" {
 		parsedDB, err := strconv.Atoi(dbStr)
 		if err == nil {

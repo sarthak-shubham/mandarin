@@ -1,6 +1,7 @@
 .git
 .gitignore
 *.exe
-mochi
+tamarind
 repomix-output.md
 tests/
+
