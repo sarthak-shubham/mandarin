@@ -1,11 +1,11 @@
-<h1 align="center"><img src="assets/images/app_logo.svg" alt="" width="64" align="center" /> Mandarin</h1>
+<p align="left">
+  <img src="assets/images/mandarin_logo.svg" alt="Mandarin" width="280" />
+</p>
 
-<p align="center">A self-hosted webhook fan-out gateway written in Go.</p>
-
-<p align="center">
-  <a href="https://github.com/sarthak-shubham/mochi/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/sarthak-shubham/mochi/actions/workflows/ci.yml/badge.svg?branch=main" /></a>
-  <a href="go.mod"><img alt="Go version" src="https://img.shields.io/github/go-mod/go-version/sarthak-shubham/mochi" /></a>
-  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/sarthak-shubham/mochi" /></a>
+<p align="left">
+  <a href="https://github.com/sarthak-shubham/mandarin/actions/workflows/ci.yml"><img alt="CI status" src="https://github.com/sarthak-shubham/mandarin/actions/workflows/ci.yml/badge.svg?branch=main" /></a>
+  <a href="go.mod"><img alt="Go version" src="https://img.shields.io/github/go-mod/go-version/sarthak-shubham/mandarin" /></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/sarthak-shubham/mandarin" /></a>
 </p>
 
 Mandarin is a self-hosted webhook fan-out gateway written in Go. A publishing application sends an event once, and Mandarin schedules a webhook delivery for each registered endpoint subscribed to that event type.
@@ -26,7 +26,7 @@ Publishing an event returns `202 Accepted` after Mandarin has scheduled the matc
 
 **Using Mandarin**
 
-For consumer-facing instructions—running the container image or Docker Compose setup, configuring Redis, and sending requests—see the [Mandarin GitHub Wiki](https://github.com/sarthak-shubham/mochi/wiki).
+For consumer-facing instructions—running the container image or Docker Compose setup, configuring Redis, and sending requests—see the [Mandarin GitHub Wiki](https://github.com/sarthak-shubham/mandarin/wiki).
 
 **Developing Mandarin**
 
