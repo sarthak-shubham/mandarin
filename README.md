@@ -34,7 +34,7 @@ After cloning the repository, start with these guides:
 
 - [Setup and development](docs/setup.md) — local setup, configuration, tests, benchmarks, and troubleshooting.
 - [Architecture](docs/architecture.md) — components, event flow, Redis data model, design decisions, and scaling assumptions.
-- [Limitations and trade-offs](docs/limitations-and-tradeoffs.md) — delivery behaviour, failure modes, constraints, and the costs of design choices.
+- [Design decisions and trade-offs](docs/decision.md) — delivery behaviour, failure modes, constraints, and the costs of design choices.
 
 ## Performance snapshot
 
