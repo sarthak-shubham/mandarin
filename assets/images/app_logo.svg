@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="100%" height="100%">
+  <defs>
+    <!-- Top Hemisphere Radial Gradient -->
+    <radialGradient id="topOrangeGrad" cx="50%" cy="32%" r="55%">
+      <stop offset="0%" stop-color="#FF751A" />
+      <stop offset="55%" stop-color="#F24C00" />
+      <stop offset="100%" stop-color="#D93D00" />
+    </radialGradient>
+
+    <!-- Bottom Hemisphere Radial Gradient -->
+    <radialGradient id="bottomOrangeGrad" cx="50%" cy="65%" r="55%">
+      <stop offset="0%" stop-color="#FFB400" />
+      <stop offset="70%" stop-color="#FF9200" />
+      <stop offset="100%" stop-color="#E57C00" />
+    </radialGradient>
+
+    <!-- Right Leaf - Top Surface Gradient -->
+    <linearGradient id="rightLeafTop" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#249A39" />
+      <stop offset="60%" stop-color="#69D91D" />
+      <stop offset="100%" stop-color="#93F52E" />
+    </linearGradient>
+
+    <!-- Right Leaf - Bottom Surface Gradient -->
+    <linearGradient id="rightLeafBottom" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0F5E24" />
+      <stop offset="60%" stop-color="#1B8233" />
+      <stop offset="100%" stop-color="#3EB025" />
+    </linearGradient>
+
+    <!-- Left Leaf - Top Surface Gradient -->
+    <linearGradient id="leftLeafTop" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#209235" />
+      <stop offset="60%" stop-color="#62CE1A" />
+      <stop offset="100%" stop-color="#88E825" />
+    </linearGradient>
+
+    <!-- Left Leaf - Bottom Surface Gradient -->
+    <linearGradient id="leftLeafBottom" x1="100%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#0D5420" />
+      <stop offset="60%" stop-color="#17772E" />
+      <stop offset="100%" stop-color="#34A321" />
+    </linearGradient>
+  </defs>
+
+  <!-- Orange Graphic Object (Transparent Background) -->
+  <g id="orange-icon">
+    <!-- Top Semi-Circle (Red-Orange) -->
+    <path d="M 162,485 A 238,238 0 0,1 638,485 Z" fill="url(#topOrangeGrad)" />
+
+    <!-- Bottom Semi-Circle (Golden-Orange) -->
+    <path d="M 162,485 A 238,238 0 0,0 638,485 Z" fill="url(#bottomOrangeGrad)" />
+
+    <!-- Top Soft Gloss Highlight -->
+    <ellipse cx="400" cy="355" rx="135" ry="65" fill="#FFFFFF" opacity="0.1" />
+
+    <!-- Left Leaf (Smaller) - Top Half -->
+    <path d="M 400,247 
+             C 335,235 285,180 270,120 
+             C 330,140 375,190 400,247 Z" fill="url(#leftLeafTop)" />
+
+    <!-- Left Leaf (Smaller) - Bottom Half -->
+    <path d="M 400,247 
+             C 375,190 330,140 270,120 
+             C 310,210 360,245 400,247 Z" fill="url(#leftLeafBottom)" />
+
+    <!-- Right Leaf (Larger) - Top Half -->
+    <path d="M 400,247 
+             C 415,135 515,48 630,48 
+             C 580,125 490,205 400,247 Z" fill="url(#rightLeafTop)" />
+
+    <!-- Right Leaf (Larger) - Bottom Half -->
+    <path d="M 400,247 
+             C 490,205 580,125 630,48 
+             C 630,150 510,240 400,247 Z" fill="url(#rightLeafBottom)" />
+  </g>
+</svg>
