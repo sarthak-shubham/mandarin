@@ -4,7 +4,7 @@ import "fmt"
 
 func validate(cfg Config) error {
 	if cfg.Redis.Address == "" {
-		return fmt.Errorf("redis.address is required (set it in the config file or via TAMARIND_REDIS_ADDRESS)")
+		return fmt.Errorf("redis.address is required (set it in the config file or via MANDARIN_REDIS_ADDRESS)")
 	}
 
 	if cfg.Server.Port < 1 || cfg.Server.Port > 65535 {

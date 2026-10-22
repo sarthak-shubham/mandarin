@@ -1,7 +1,7 @@
 # Compiled binaries
 /bin/
-/tamarind
-/tamarind.exe
+/mandarin
+/mandarin.exe
 *.exe
 *.exe~
 *.dll

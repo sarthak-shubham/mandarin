@@ -69,7 +69,7 @@ func mergeYAML(cfg *Config, path string) error {
 }
 
 func mergeEnv(cfg *Config) {
-	portStr := os.Getenv("TAMARIND_SERVER_PORT")
+	portStr := os.Getenv("MANDARIN_SERVER_PORT")
 	if portStr != "" {
 		n, err := strconv.Atoi(portStr)
 		if err == nil {
@@ -77,17 +77,17 @@ func mergeEnv(cfg *Config) {
 		}
 	}
 
-	redisAddr := os.Getenv("TAMARIND_REDIS_ADDRESS")
+	redisAddr := os.Getenv("MANDARIN_REDIS_ADDRESS")
 	if redisAddr != "" {
 		cfg.Redis.Address = redisAddr
 	}
 
-	redisPass := os.Getenv("TAMARIND_REDIS_PASSWORD")
+	redisPass := os.Getenv("MANDARIN_REDIS_PASSWORD")
 	if redisPass != "" {
 		cfg.Redis.Password = redisPass
 	}
 
-	redisDB := os.Getenv("TAMARIND_REDIS_DB")
+	redisDB := os.Getenv("MANDARIN_REDIS_DB")
 	if redisDB != "" {
 		n, err := strconv.Atoi(redisDB)
 		if err == nil {
@@ -95,7 +95,7 @@ func mergeEnv(cfg *Config) {
 		}
 	}
 
-	workersStr := os.Getenv("TAMARIND_WORKERS")
+	workersStr := os.Getenv("MANDARIN_WORKERS")
 	if workersStr != "" {
 		n, err := strconv.Atoi(workersStr)
 		if err == nil {
@@ -103,7 +103,7 @@ func mergeEnv(cfg *Config) {
 		}
 	}
 
-	timeoutStr := os.Getenv("TAMARIND_DELIVERY_TIMEOUT")
+	timeoutStr := os.Getenv("MANDARIN_DELIVERY_TIMEOUT")
 	if timeoutStr != "" {
 		d, err := time.ParseDuration(timeoutStr)
 		if err == nil {
@@ -111,7 +111,7 @@ func mergeEnv(cfg *Config) {
 		}
 	}
 
-	batchStr := os.Getenv("TAMARIND_BATCH_SIZE")
+	batchStr := os.Getenv("MANDARIN_BATCH_SIZE")
 	if batchStr != "" {
 		n, err := strconv.Atoi(batchStr)
 		if err == nil {

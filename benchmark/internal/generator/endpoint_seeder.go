@@ -50,7 +50,7 @@ func (s *EndpointSeeder) TeardownBenchmarkData(ctx context.Context, count int, e
 		metaPipe.Unlink(ctx, "event:"+eventID)
 		metaPipe.Unlink(ctx, "event_deliveries:"+eventID)
 	}
-	metaPipe.Unlink(ctx, "tamarind:deliveries")
+	metaPipe.Unlink(ctx, "mandarin:deliveries")
 
 	_, err := metaPipe.Exec(ctx)
 	return err

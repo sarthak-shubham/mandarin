@@ -1,27 +1,27 @@
 services:
   redis:
     image: redis:7-alpine
-    container_name: tamarind-redis
+    container_name: mandarin-redis
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
     restart: unless-stopped
 
-  tamarind:
+  mandarin:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: tamarind-server
+    container_name: mandarin-server
     depends_on:
       - redis
     ports:
       - "8080:8080"
     environment:
-      - TAMARIND_REDIS_ADDRESS=redis:6379
-      - TAMARIND_SERVER_PORT=8080
-      - TAMARIND_WORKERS=10
-      - TAMARIND_DELIVERY_TIMEOUT=5s
+      - MANDARIN_REDIS_ADDRESS=redis:6379
+      - MANDARIN_SERVER_PORT=8080
+      - MANDARIN_WORKERS=10
+      - MANDARIN_DELIVERY_TIMEOUT=5s
     restart: unless-stopped
 
 volumes:

@@ -9,9 +9,9 @@ import (
 )
 
 type BenchmarkConfig struct {
-	Tamarind struct {
+	Mandarin struct {
 		Address string `yaml:"address"`
-	} `yaml:"tamarind"`
+	} `yaml:"mandarin"`
 
 	Redis struct {
 		Address  string `yaml:"address"`
@@ -35,7 +35,7 @@ type BenchmarkConfig struct {
 
 func defaultBenchmarkConfig() BenchmarkConfig {
 	var cfg BenchmarkConfig
-	cfg.Tamarind.Address = "http://localhost:8080"
+	cfg.Mandarin.Address = "http://localhost:8080"
 	cfg.Receiver.Port = 9000
 	cfg.Receiver.URL = "http://localhost:9000"
 	cfg.Benchmark.Subscribers = 10000
@@ -75,8 +75,8 @@ func validateBenchmarkConfig(cfg BenchmarkConfig) error {
 		return fmt.Errorf("redis.address is required (set it in benchmark.yaml)")
 	}
 
-	if cfg.Tamarind.Address == "" {
-		return fmt.Errorf("tamarind.address is required")
+	if cfg.Mandarin.Address == "" {
+		return fmt.Errorf("mandarin.address is required")
 	}
 
 	if cfg.Receiver.URL == "" {

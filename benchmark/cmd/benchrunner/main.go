@@ -55,7 +55,7 @@ func main() {
 
 func runBenchmark(cfg config.BenchmarkConfig, client *redis.Client, keepData bool) {
 	seeder := generator.NewEndpointSeeder(client)
-	publisher := generator.NewEventPublisher(cfg.Tamarind.Address)
+	publisher := generator.NewEventPublisher(cfg.Mandarin.Address)
 
 	fmt.Printf("1. Seeding %d subscribers to %q...\n", cfg.Benchmark.Subscribers, cfg.Benchmark.EventType)
 	seedStart := time.Now()
@@ -65,11 +65,11 @@ func runBenchmark(cfg config.BenchmarkConfig, client *redis.Client, keepData boo
 	}
 	fmt.Printf("   Seeded %d subscribers in %s\n", cfg.Benchmark.Subscribers, time.Since(seedStart))
 
-	fmt.Println("2. Publishing broadcast event to Tamarind...")
+	fmt.Println("2. Publishing broadcast event to Mandarin...")
 	payload := map[string]any{"version": "2.0", "effective_date": "2026-11-01"}
 	eventID, enqueueDuration, err := publisher.PublishBroadcast(context.Background(), cfg.Benchmark.EventType, payload)
 	if err != nil {
-		log.Fatalf("publish broadcast failed: %s\nIs Tamarind running at %s?", err, cfg.Tamarind.Address)
+		log.Fatalf("publish broadcast failed: %s\nIs Mandarin running at %s?", err, cfg.Mandarin.Address)
 	}
 	fmt.Printf("   Event accepted: %s (enqueue latency: %s)\n", eventID, enqueueDuration)
 

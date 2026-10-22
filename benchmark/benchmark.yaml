@@ -1,7 +1,7 @@
-# Benchmark Configuration for Tamarind Fan-Out Stress Testing
+# Benchmark Configuration for Mandarin Fan-Out Stress Testing
 
-# Tamarind Server Connection
-tamarind:
+# Mandarin Server Connection
+mandarin:
   address: "http://localhost:8080"
 
 # Redis Infrastructure (Explicitly required - DB: 14 for benchmark isolation)

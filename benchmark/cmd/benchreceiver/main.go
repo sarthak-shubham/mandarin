@@ -41,7 +41,7 @@ func main() {
 	srv := receiver.NewReceiverServer(port, delay, failureRate)
 
 	fmt.Println("==========================================================")
-	fmt.Printf("   Tamarind Mock Webhook Receiver listening on :%d\n", port)
+	fmt.Printf("   Mandarin Mock Webhook Receiver listening on :%d\n", port)
 	if delay > 0 {
 		fmt.Printf("   Simulated network latency: %s\n", delay)
 	}

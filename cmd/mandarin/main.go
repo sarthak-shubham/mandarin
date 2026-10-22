@@ -19,18 +19,18 @@ import (
 )
 
 func main() {
-	configPath := flag.String("config", "", "path to tamarind.yaml (optional)")
+	configPath := flag.String("config", "", "path to mandarin.yaml (optional)")
 	flag.Parse()
 
 	cfg, err := config.Load(*configPath)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "tamarind: invalid configuration: %s\n", err)
+		fmt.Fprintf(os.Stderr, "mandarin: invalid configuration: %s\n", err)
 		os.Exit(1)
 	}
 
 	redisClient, err := connectRedis(cfg)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "tamarind: cannot connect to Redis: %s\n", err)
+		fmt.Fprintf(os.Stderr, "mandarin: cannot connect to Redis: %s\n", err)
 		os.Exit(1)
 	}
 	defer redisClient.Close()
@@ -43,7 +43,7 @@ func main() {
 
 	err = worker.StartWorkers(ctx, s, cfg)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "tamarind: cannot start workers: %s\n", err)
+		fmt.Fprintf(os.Stderr, "mandarin: cannot start workers: %s\n", err)
 		os.Exit(1)
 	}
 
@@ -51,7 +51,7 @@ func main() {
 
 	serverErr := make(chan error, 1)
 	go func() {
-		log.Printf("tamarind: listening on port %d", cfg.Server.Port)
+		log.Printf("mandarin: listening on port %d", cfg.Server.Port)
 		serverErr <- server.ListenAndServe()
 	}()
 
@@ -60,9 +60,9 @@ func main() {
 
 	select {
 	case err := <-serverErr:
-		log.Fatalf("tamarind: server error: %s", err)
+		log.Fatalf("mandarin: server error: %s", err)
 	case sig := <-quit:
-		log.Printf("tamarind: received %s, shutting down", sig)
+		log.Printf("mandarin: received %s, shutting down", sig)
 	}
 
 	cancel()
@@ -72,10 +72,10 @@ func main() {
 
 	err = server.Shutdown(shutdownCtx)
 	if err != nil {
-		log.Fatalf("tamarind: shutdown error: %s", err)
+		log.Fatalf("mandarin: shutdown error: %s", err)
 	}
 
-	log.Println("tamarind: stopped")
+	log.Println("mandarin: stopped")
 }
 
 func connectRedis(cfg config.Config) (*redis.Client, error) {

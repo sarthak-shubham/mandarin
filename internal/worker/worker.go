@@ -16,7 +16,7 @@ import (
 	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
-const consumerGroupName = "tamarind-workers"
+const consumerGroupName = "mandarin-workers"
 
 func StartWorkers(ctx context.Context, s *store.Store, cfg config.Config) error {
 	err := s.Redis.XGroupCreateMkStream(ctx, store.DeliveryStreamKey(), consumerGroupName, "$").Err()

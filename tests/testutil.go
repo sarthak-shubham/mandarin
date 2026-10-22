@@ -25,13 +25,13 @@ type receivedWebhook struct {
 func setupTestRedis(t *testing.T) (*redis.Client, *store.Store) {
 	t.Helper()
 
-	addr := os.Getenv("TAMARIND_TEST_REDIS_ADDRESS")
+	addr := os.Getenv("MANDARIN_TEST_REDIS_ADDRESS")
 	if addr == "" {
 		addr = "localhost:6379"
 	}
 
 	db := 15
-	dbStr := os.Getenv("TAMARIND_TEST_REDIS_DB")
+	dbStr := os.Getenv("MANDARIN_TEST_REDIS_DB")
 	if dbStr != "" {
 		parsedDB, err := strconv.Atoi(dbStr)
 		if err == nil {

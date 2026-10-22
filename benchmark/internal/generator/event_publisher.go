@@ -20,13 +20,13 @@ type PublishResult struct {
 
 type EventPublisher struct {
 	client      *http.Client
-	tamarindURL string
+	mandarinURL string
 }
 
-func NewEventPublisher(tamarindURL string) *EventPublisher {
+func NewEventPublisher(mandarinURL string) *EventPublisher {
 	pub := &EventPublisher{
 		client:      &http.Client{Timeout: 10 * time.Second},
-		tamarindURL: tamarindURL,
+		mandarinURL: mandarinURL,
 	}
 	return pub
 }
@@ -41,7 +41,7 @@ func (p *EventPublisher) PublishBroadcast(ctx context.Context, eventType string,
 	}
 
 	start := time.Now()
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, p.tamarindURL+"/events", bytes.NewReader(body))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, p.mandarinURL+"/events", bytes.NewReader(body))
 	if err != nil {
 		return "", 0, fmt.Errorf("create event request: %w", err)
 	}
@@ -49,7 +49,7 @@ func (p *EventPublisher) PublishBroadcast(ctx context.Context, eventType string,
 
 	resp, err := p.client.Do(req)
 	if err != nil {
-		return "", 0, fmt.Errorf("post event to tamarind: %w", err)
+		return "", 0, fmt.Errorf("post event to mandarin: %w", err)
 	}
 	defer resp.Body.Close()
 
@@ -92,7 +92,7 @@ func (p *EventPublisher) WaitForCompletion(ctx context.Context, eventID string, 
 }
 
 func (p *EventPublisher) checkEventStatus(ctx context.Context, id string, total int) (*PublishResult, bool, error) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, p.tamarindURL+"/events/"+id, nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, p.mandarinURL+"/events/"+id, nil)
 	if err != nil {
 		return nil, false, err
 	}

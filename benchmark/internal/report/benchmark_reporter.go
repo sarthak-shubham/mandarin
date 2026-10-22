@@ -22,7 +22,7 @@ type BenchmarkReport struct {
 func PrintSummary(r BenchmarkReport) {
 	fmt.Println()
 	fmt.Println("==========================================================")
-	fmt.Println("               TAMARIND 10K FAN-OUT BENCHMARK             ")
+	fmt.Println("               MANDARIN 10K FAN-OUT BENCHMARK             ")
 	fmt.Println("==========================================================")
 	fmt.Printf("Timestamp:          %s\n", r.Timestamp.Format(time.RFC3339))
 	fmt.Printf("Subscribers:        %d\n", r.Subscribers)
