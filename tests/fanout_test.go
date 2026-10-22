@@ -7,9 +7,9 @@ import (
 	"testing"
 	"time"
 
-	"tamarind/internal/config"
-	"tamarind/internal/store"
-	"tamarind/internal/worker"
+	"github.com/sarthak-shubham/mandarin/internal/config"
+	"github.com/sarthak-shubham/mandarin/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/worker"
 )
 
 func TestWebhookDelivery_FanOut(t *testing.T) {

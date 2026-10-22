@@ -7,9 +7,9 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"tamarind/internal/api"
-	"tamarind/internal/config"
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/api"
+	"github.com/sarthak-shubham/mandarin/internal/config"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 func newTestAPIServer(t *testing.T, s *store.Store) *httptest.Server {

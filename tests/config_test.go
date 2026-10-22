@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"tamarind/internal/config"
+	"github.com/sarthak-shubham/mandarin/internal/config"
 )
 
 func TestConfig_Defaults(t *testing.T) {

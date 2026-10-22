@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"tamarind/benchmark/internal/config"
-	"tamarind/benchmark/internal/receiver"
+	"github.com/sarthak-shubham/mandarin/benchmark/internal/config"
+	"github.com/sarthak-shubham/mandarin/benchmark/internal/receiver"
 )
 
 func main() {

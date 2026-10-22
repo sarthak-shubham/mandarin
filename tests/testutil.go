@@ -14,7 +14,7 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 type receivedWebhook struct {

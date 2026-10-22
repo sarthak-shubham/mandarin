@@ -10,9 +10,9 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"tamarind/benchmark/internal/config"
-	"tamarind/benchmark/internal/generator"
-	"tamarind/benchmark/internal/report"
+	"github.com/sarthak-shubham/mandarin/benchmark/internal/config"
+	"github.com/sarthak-shubham/mandarin/benchmark/internal/generator"
+	"github.com/sarthak-shubham/mandarin/benchmark/internal/report"
 )
 
 func main() {

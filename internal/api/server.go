@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"tamarind/internal/config"
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/config"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 func NewServer(cfg config.Config, s *store.Store) *http.Server {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/google/uuid"
 
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 func registerEndpointHandler(s *store.Store) http.HandlerFunc {

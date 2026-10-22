@@ -12,8 +12,8 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"tamarind/internal/config"
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/config"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 const consumerGroupName = "tamarind-workers"

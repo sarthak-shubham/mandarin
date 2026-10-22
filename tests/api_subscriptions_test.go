@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"testing"
 
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 func TestAPI_Subscriptions_Lifecycle(t *testing.T) {

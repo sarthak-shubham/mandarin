@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"net/url"
 
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 func writeJSON(w http.ResponseWriter, status int, v any) {

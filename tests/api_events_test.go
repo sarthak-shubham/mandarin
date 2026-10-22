@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"tamarind/internal/store"
+	"github.com/sarthak-shubham/mandarin/internal/store"
 )
 
 func TestAPI_PublishEvent_Validation(t *testing.T) {

@@ -1,4 +1,4 @@
-module tamarind
+module github.com/sarthak-shubham/mandarin
 
 go 1.27.1
 
