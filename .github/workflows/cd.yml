@@ -2,7 +2,6 @@ name: CD - Publish Docker Image
 
 on:
   push:
-    branches: [ main ]
     tags: [ 'v*.*.*', 'v*' ]
   workflow_dispatch:
 
@@ -56,8 +55,8 @@ jobs:
             ghcr.io/${{ github.repository }}
             ${{ steps.dockerhub_check.outputs.has_dockerhub == 'true' && format('{0}/mandarin', secrets.DOCKERHUB_USERNAME) || '' }}
           tags: |
-            type=raw,value=latest,enable={{is_default_branch}}
             type=ref,event=tag
+            type=raw,value=latest,enable=${{ github.ref_type == 'tag' || github.event_name == 'workflow_dispatch' }}
             type=sha,format=short
 
       - name: Build and Push Multi-Arch Docker Image
